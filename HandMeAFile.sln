@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2018
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HandMeAFile", "HandMeAFile\HandMeAFile.csproj", "{A236C4F0-9B8B-43EC-9AA0-B34382F6DFDE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A236C4F0-9B8B-43EC-9AA0-B34382F6DFDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A236C4F0-9B8B-43EC-9AA0-B34382F6DFDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A236C4F0-9B8B-43EC-9AA0-B34382F6DFDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A236C4F0-9B8B-43EC-9AA0-B34382F6DFDE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A8730570-E163-4716-A28C-DE8A45F0C26B}
+	EndGlobalSection
+EndGlobal
