@@ -263,6 +263,9 @@
     <Compile Include="commons\WMI\DrivePartitionsProvider.cs" />
     <Compile Include="commons\WMI\IReadSystemsPartitions.cs" />
     <Compile Include="commons\WMI\Partition.cs" />
+    <Compile Include="Model\ClipboardFilesRepository.cs" />
+    <Compile Include="Model\FilePack.cs" />
+    <Compile Include="Model\IReadAndStoreFilePacks.cs" />
     <Compile Include="ViewModel\ISettingsWindowViewModel.cs" />
     <Compile Include="View\SettingsWindow.xaml.cs">
       <DependentUpon>SettingsWindow.xaml</DependentUpon>

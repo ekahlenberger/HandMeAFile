@@ -32,7 +32,7 @@ namespace org.ek.HandMeAFile.commons.Extensions
         [ContractAnnotation("null=>true")]
         public static bool IsNullOrEmpty<T>(this IEnumerable<T> l)
         {
-            return l.IsNull() || !l.Any();
+            return l.IsNull() || l.IsEmpty();
         }
         [ContractAnnotation("null => halt")]
         public static bool IsEmpty<T>(this IEnumerable<T> l)

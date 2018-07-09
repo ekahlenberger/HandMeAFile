@@ -24,15 +24,10 @@ namespace org.ek.HandMeAFile.commons.Tools.Application
                                [NotNull] IProvideIcon trayIconProvider,
                                [CanBeNull] IRunTheBackgroundTrayApp background = null)
         {
-            if (contextMenu == null) throw new ArgumentNullException(nameof(contextMenu));
-            if (application == null) throw new ArgumentNullException(nameof(application));
-            if (notifyIconProvider == null) throw new ArgumentNullException(nameof(notifyIconProvider));
-            if (trayIconProvider == null) throw new ArgumentNullException(nameof(trayIconProvider));
-
-            m_contextMenu = contextMenu;
-            m_application = application;
-            m_notifyIconProvider = notifyIconProvider;
-            m_trayIconProvider = trayIconProvider;
+            m_contextMenu = contextMenu ?? throw new ArgumentNullException(nameof(contextMenu));
+            m_application = application ?? throw new ArgumentNullException(nameof(application));
+            m_notifyIconProvider = notifyIconProvider ?? throw new ArgumentNullException(nameof(notifyIconProvider));
+            m_trayIconProvider = trayIconProvider ?? throw new ArgumentNullException(nameof(trayIconProvider));
             m_background = background;
 
             m_notifyIcon = m_notifyIconProvider.Provide();

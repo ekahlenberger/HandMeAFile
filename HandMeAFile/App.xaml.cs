@@ -11,7 +11,7 @@ namespace org.ek.HandMeAFile
     /// <summary>
     /// Interaktionslogik für "App.xaml"
     /// </summary>
-    public partial class App : Application
+    public partial class App
     {
         private void App_OnStartup(object sender, StartupEventArgs e)
         {

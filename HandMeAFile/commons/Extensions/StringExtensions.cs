@@ -29,6 +29,7 @@ namespace org.ek.HandMeAFile.commons.Extensions
         public static Convertable<long> ConvertToLong(this string s) => new LongConvertable(s);
         public static Convertable<byte[]> ConvertToByteArray(this string s) => new StringToByteArrayConverter(s);
         public static Path AsRegistryPath(this string s) => new Path(s, "\\", StringComparison.OrdinalIgnoreCase);
+        public static Path AsWindowsFilePath(this string s) => new Path(s, "\\", StringComparison.OrdinalIgnoreCase);
 
         [ContractAnnotation("s:null => null; s:notnull => notnull")]
         public static string Remove(this string s, string remove) => s?.Replace(remove ?? string.Empty, string.Empty);
