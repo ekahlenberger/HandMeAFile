@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{A236C4F0-9B8B-43EC-9AA0-B34382F6DFDE}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>HandMeAFile</RootNamespace>
+    <RootNamespace>org.ek.HandMeAFile</RootNamespace>
     <AssemblyName>HandMeAFile</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -23,6 +23,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -34,8 +36,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="JetBrains.Annotations, Version=11.1.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.11.1.0\lib\net20\JetBrains.Annotations.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -54,7 +63,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainWindow.xaml">
+    <Page Include="View\SettingsWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -62,8 +71,201 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="commons\ApiWrapper\Microsoft\Win32\IProvideOrgRegistrySecurity.cs" />
+    <Compile Include="commons\ApiWrapper\Microsoft\Win32\IRegistry.cs" />
+    <Compile Include="commons\ApiWrapper\Microsoft\Win32\IRegistryKey.cs" />
+    <Compile Include="commons\ApiWrapper\Microsoft\Win32\IRegistrySecurity.cs" />
+    <Compile Include="commons\ApiWrapper\Microsoft\Win32\RegistryKeyWrapper.cs" />
+    <Compile Include="commons\ApiWrapper\Microsoft\Win32\RegistrySecurityWrapper.cs" />
+    <Compile Include="commons\ApiWrapper\Microsoft\Win32\RegistryWrapper.cs" />
+    <Compile Include="commons\ApiWrapper\System\Diagnostics\IProcess.cs" />
+    <Compile Include="commons\ApiWrapper\System\Diagnostics\IProcessStartInfo.cs" />
+    <Compile Include="commons\ApiWrapper\System\Diagnostics\IProvideOrgProcessStartInfo.cs" />
+    <Compile Include="commons\ApiWrapper\System\Diagnostics\IProvideProcessStartInfo.cs" />
+    <Compile Include="commons\ApiWrapper\System\Diagnostics\IStartProcesses.cs" />
+    <Compile Include="commons\ApiWrapper\System\Diagnostics\IStopwatch.cs" />
+    <Compile Include="commons\ApiWrapper\System\Diagnostics\ProcessStarter.cs" />
+    <Compile Include="commons\ApiWrapper\System\Diagnostics\ProcessStartInfoProvider.cs" />
+    <Compile Include="commons\ApiWrapper\System\Diagnostics\ProcessStartInfoWrapper.cs" />
+    <Compile Include="commons\ApiWrapper\System\Diagnostics\ProcessWrapper.cs" />
+    <Compile Include="commons\ApiWrapper\System\Diagnostics\StopWatchWrapper.cs" />
+    <Compile Include="commons\ApiWrapper\System\Drawing\BitmapWrapper.cs" />
+    <Compile Include="commons\ApiWrapper\System\Drawing\IBitmap.cs" />
+    <Compile Include="commons\ApiWrapper\System\Drawing\IconWrapper.cs" />
+    <Compile Include="commons\ApiWrapper\System\Drawing\IIcon.cs" />
+    <Compile Include="commons\ApiWrapper\System\Drawing\IProvideOrgIcon.cs" />
+    <Compile Include="commons\ApiWrapper\System\EnvironmentWrapper.cs" />
+    <Compile Include="commons\ApiWrapper\System\IEnvironment.cs" />
+    <Compile Include="commons\ApiWrapper\System\IMath.cs" />
+    <Compile Include="commons\ApiWrapper\System\IO\Async\FileWrapperAsync.cs" />
+    <Compile Include="commons\ApiWrapper\System\IO\Async\IFileAsync.cs" />
+    <Compile Include="commons\ApiWrapper\System\IO\DirectoryInfoWrapper.cs" />
+    <Compile Include="commons\ApiWrapper\System\IO\DirectoryWrapper.cs" />
+    <Compile Include="commons\ApiWrapper\System\IO\FileInfoProvider.cs" />
+    <Compile Include="commons\ApiWrapper\System\IO\FileInfoWrapper.cs" />
+    <Compile Include="commons\ApiWrapper\System\IO\FileStreamWrapper.cs" />
+    <Compile Include="commons\ApiWrapper\System\IO\FileWrapper.cs" />
+    <Compile Include="commons\ApiWrapper\System\IO\IDirectory.cs" />
+    <Compile Include="commons\ApiWrapper\System\IO\IDirectoryInfo.cs" />
+    <Compile Include="commons\ApiWrapper\System\IO\IFile.cs" />
+    <Compile Include="commons\ApiWrapper\System\IO\IFileInfo.cs" />
+    <Compile Include="commons\ApiWrapper\System\IO\IFileStream.cs" />
+    <Compile Include="commons\ApiWrapper\System\IO\IPath.cs" />
+    <Compile Include="commons\ApiWrapper\System\IO\IProvideFileInfo.cs" />
+    <Compile Include="commons\ApiWrapper\System\IO\IProvideOrgStream.cs" />
+    <Compile Include="commons\ApiWrapper\System\IO\IStream.cs" />
+    <Compile Include="commons\ApiWrapper\System\IO\PathWrapper.cs" />
+    <Compile Include="commons\ApiWrapper\System\IO\StreamWrapper.cs" />
+    <Compile Include="commons\ApiWrapper\System\MathWrapper.cs" />
+    <Compile Include="commons\ApiWrapper\System\Net\HttpClientWrapper.cs" />
+    <Compile Include="commons\ApiWrapper\System\Net\HttpClientWrapperProvider.cs" />
+    <Compile Include="commons\ApiWrapper\System\Net\Http\Headers\HttpResponseHeadersWrapper.cs" />
+    <Compile Include="commons\ApiWrapper\System\Net\Http\Headers\IHttpResponseHeaders.cs" />
+    <Compile Include="commons\ApiWrapper\System\Net\Http\HttpContentWrapper.cs" />
+    <Compile Include="commons\ApiWrapper\System\Net\Http\HttpResponseMessageWrapper.cs" />
+    <Compile Include="commons\ApiWrapper\System\Net\Http\IHttpContent.cs" />
+    <Compile Include="commons\ApiWrapper\System\Net\Http\IHttpResponseMessage.cs" />
+    <Compile Include="commons\ApiWrapper\System\Net\Http\IProvideOrgHttpContent.cs" />
+    <Compile Include="commons\ApiWrapper\System\Net\IHttpClient.cs" />
+    <Compile Include="commons\ApiWrapper\System\Net\IProvideHttpClient.cs" />
+    <Compile Include="commons\ApiWrapper\System\Net\ITransportContext.cs" />
+    <Compile Include="commons\ApiWrapper\System\Net\TransportContextWrapper.cs" />
+    <Compile Include="commons\ApiWrapper\System\Threading\IProvideReaderWriterLockSlim.cs" />
+    <Compile Include="commons\ApiWrapper\System\Threading\IReaderWriterLockSlim.cs" />
+    <Compile Include="commons\ApiWrapper\System\Threading\ReaderWriterLockSlimProvider.cs" />
+    <Compile Include="commons\ApiWrapper\System\Threading\ReaderWriterLockSlimWrapper.cs" />
+    <Compile Include="commons\ApiWrapper\System\Windows\ApplicationWrapper.cs" />
+    <Compile Include="commons\ApiWrapper\System\Windows\Forms\ContextMenuProvider.cs" />
+    <Compile Include="commons\ApiWrapper\System\Windows\Forms\ContextMenuStripWrapper.cs" />
+    <Compile Include="commons\ApiWrapper\System\Windows\Forms\ContextMenuWrapper.cs" />
+    <Compile Include="commons\ApiWrapper\System\Windows\Forms\IContextMenu.cs" />
+    <Compile Include="commons\ApiWrapper\System\Windows\Forms\IContextMenuStrip.cs" />
+    <Compile Include="commons\ApiWrapper\System\Windows\Forms\IMenuItem.cs" />
+    <Compile Include="commons\ApiWrapper\System\Windows\Forms\INotifyIcon.cs" />
+    <Compile Include="commons\ApiWrapper\System\Windows\Forms\IProvideContextMenu.cs" />
+    <Compile Include="commons\ApiWrapper\System\Windows\Forms\IProvideMenuItem.cs" />
+    <Compile Include="commons\ApiWrapper\System\Windows\Forms\IProvideNotifyIcon.cs" />
+    <Compile Include="commons\ApiWrapper\System\Windows\Forms\IProvideOrgContextMenu.cs" />
+    <Compile Include="commons\ApiWrapper\System\Windows\Forms\IProvideOrgContextMenuStrip.cs" />
+    <Compile Include="commons\ApiWrapper\System\Windows\Forms\IProvideOrgMenuItem.cs" />
+    <Compile Include="commons\ApiWrapper\System\Windows\Forms\IProvideOrgToolTipIcon.cs" />
+    <Compile Include="commons\ApiWrapper\System\Windows\Forms\IToolTipIcon.cs" />
+    <Compile Include="commons\ApiWrapper\System\Windows\Forms\MenuItemProvider.cs" />
+    <Compile Include="commons\ApiWrapper\System\Windows\Forms\MenuItemWrapper.cs" />
+    <Compile Include="commons\ApiWrapper\System\Windows\Forms\NotifyIconProvider.cs" />
+    <Compile Include="commons\ApiWrapper\System\Windows\Forms\NotifyIconWrapper.cs" />
+    <Compile Include="commons\ApiWrapper\System\Windows\Forms\ToolTipIconWrapper.cs" />
+    <Compile Include="commons\ApiWrapper\System\Windows\IApplication.cs" />
+    <Compile Include="commons\ApiWrapper\System\Windows\Interop\IProvideWindowInteropHelper.cs" />
+    <Compile Include="commons\ApiWrapper\System\Windows\Interop\IWindowInteropHelper.cs" />
+    <Compile Include="commons\ApiWrapper\System\Windows\Interop\WindowInteropHelperProvider.cs" />
+    <Compile Include="commons\ApiWrapper\System\Windows\Interop\WindowInteropHelperWrapper.cs" />
+    <Compile Include="commons\ApiWrapper\System\Windows\Threading\DispatcherWrapper.cs" />
+    <Compile Include="commons\ApiWrapper\System\Windows\Threading\IDispatcher.cs" />
+    <Compile Include="commons\ApiWrapper\System\Xml\Linq\IProvideXDocument.cs" />
+    <Compile Include="commons\ApiWrapper\System\Xml\Linq\IXDocument.cs" />
+    <Compile Include="commons\ApiWrapper\System\Xml\Linq\XDocumentProvider.cs" />
+    <Compile Include="commons\ApiWrapper\System\Xml\Linq\XDocumentWrapper.cs" />
+    <Compile Include="commons\Extensions\ByteArrayExtensions.cs" />
+    <Compile Include="commons\Extensions\ColorExtension.cs" />
+    <Compile Include="commons\Extensions\ConcurrentDictionaryExtensions.cs" />
+    <Compile Include="commons\Extensions\ConcurrentQueueExtensions.cs" />
+    <Compile Include="commons\Extensions\Convert\BoolConvertable.cs" />
+    <Compile Include="commons\Extensions\Convert\ByteArrayBase64Converter.cs" />
+    <Compile Include="commons\Extensions\Convert\ByteArrayIntConverter.cs" />
+    <Compile Include="commons\Extensions\Convert\ByteArrayLongConverter.cs" />
+    <Compile Include="commons\Extensions\Convert\ByteArrayUtf8Converter.cs" />
+    <Compile Include="commons\Extensions\Convert\Convertable.cs" />
+    <Compile Include="commons\Extensions\Convert\DefaultConvertable.cs" />
+    <Compile Include="commons\Extensions\Convert\IntConvertable.cs" />
+    <Compile Include="commons\Extensions\Convert\IntToByteArrayConverter.cs" />
+    <Compile Include="commons\Extensions\Convert\LongConvertable.cs" />
+    <Compile Include="commons\Extensions\Convert\LongIntConvertable.cs" />
+    <Compile Include="commons\Extensions\Convert\LongToByteArrayConverter.cs" />
+    <Compile Include="commons\Extensions\Convert\StringToByteArrayConverter.cs" />
+    <Compile Include="commons\Extensions\ExceptionExtensions.cs" />
+    <Compile Include="commons\Extensions\IEnumerableExtensions.cs" />
+    <Compile Include="commons\Extensions\IntegerExtensions.cs" />
+    <Compile Include="commons\Extensions\ListExtensions.cs" />
+    <Compile Include="commons\Extensions\LongExtensions.cs" />
+    <Compile Include="commons\Extensions\ObjectExtensions.cs" />
+    <Compile Include="commons\Extensions\ReaderWriterLockSlimExtensions.cs" />
+    <Compile Include="commons\Extensions\StringExtensions.cs" />
+    <Compile Include="commons\IO\GenericProgressInfo.cs" />
+    <Compile Include="commons\IO\ICopyStreamToStream.cs" />
+    <Compile Include="commons\IO\StreamToStreamCopier.cs" />
+    <Compile Include="commons\MachineLearning\GeneticAlgo.cs" />
+    <Compile Include="commons\MachineLearning\GeneticAlgoOptimizationDirection.cs" />
+    <Compile Include="commons\MachineLearning\IAmGenetic.cs" />
+    <Compile Include="commons\MachineLearning\ICanModifyTheGeneticParameters.cs" />
+    <Compile Include="commons\MachineLearning\IConfigureGeneticParameters.cs" />
+    <Compile Include="commons\MachineLearning\ICreateGenomes.cs" />
+    <Compile Include="commons\MachineLearning\IEvolveSolutuions.cs" />
+    <Compile Include="commons\Native\IGetAndSetWindowPlacement.cs" />
+    <Compile Include="commons\Native\NativeWindowPlacement.cs" />
+    <Compile Include="commons\Native\Point.cs" />
+    <Compile Include="commons\Native\Rect.cs" />
+    <Compile Include="commons\Native\WindowplacementDetails.cs" />
+    <Compile Include="commons\Native\WindowPlacementTransceiver.cs" />
+    <Compile Include="commons\Tools\Application\IProvideIcon.cs" />
+    <Compile Include="commons\Tools\Application\IRunTheBackgroundTrayApp.cs" />
+    <Compile Include="commons\Tools\Application\IRunTheTrayApp.cs" />
+    <Compile Include="commons\Tools\Application\StaticIconProvider.cs" />
+    <Compile Include="commons\Tools\Application\TrayApplication.cs" />
+    <Compile Include="commons\Tools\ClipboardNotifier.cs" />
+    <Compile Include="commons\Tools\CryptoRandom.cs" />
+    <Compile Include="commons\Tools\DateTimeNowProvide.cs" />
+    <Compile Include="commons\Tools\GenericSerializer.cs" />
+    <Compile Include="commons\Tools\ICreateRandomValues.cs" />
+    <Compile Include="commons\Tools\INotifyOfClipboardUpdates.cs" />
+    <Compile Include="commons\Tools\IProvideNow.cs" />
+    <Compile Include="commons\Tools\IProvideService.cs" />
+    <Compile Include="commons\Tools\ISerialize.cs" />
+    <Compile Include="commons\Tools\NaturalString.cs" />
+    <Compile Include="commons\Tools\Path.cs" />
+    <Compile Include="commons\Tools\PathComparison.cs" />
+    <Compile Include="commons\Tools\PathComparisonExtension.cs" />
+    <Compile Include="commons\Tools\Registry\IHelpWithRegistry.cs" />
+    <Compile Include="commons\Tools\Registry\RegistryHelper.cs" />
+    <Compile Include="commons\Tools\ServiceProvider.cs" />
+    <Compile Include="commons\Tools\SingleInstance\IRunOnceService.cs" />
+    <Compile Include="commons\Tools\SingleInstance\IRunTheAppOnce.cs" />
+    <Compile Include="commons\Tools\SingleInstance\SecondInstaceEventArgs.cs" />
+    <Compile Include="commons\Tools\SingleInstance\SingleInstanceCommunicationService.cs" />
+    <Compile Include="commons\Tools\SingleInstance\WcfMutexSingleInstanceRunner.cs" />
+    <Compile Include="commons\Tools\StringComparisonConvertable.cs" />
+    <Compile Include="commons\UI\HumanReadableSizeStringCreator.cs" />
+    <Compile Include="commons\UI\ICreateHumanReadableSizeStrings.cs" />
+    <Compile Include="commons\UI\MVVM\ActionCommand.cs" />
+    <Compile Include="commons\UI\MVVM\AsyncActionCommand.cs" />
+    <Compile Include="commons\UI\MVVM\AsyncBaseCommand.cs" />
+    <Compile Include="commons\UI\MVVM\BaseCommand.cs" />
+    <Compile Include="commons\UI\MVVM\IExecCommand.cs" />
+    <Compile Include="commons\UI\MVVM\InitialAsyncActionCommand.cs" />
+    <Compile Include="commons\UI\WPF\BaseWindow.cs" />
+    <Compile Include="commons\UI\WPF\Converter\AllBoolToVisibilityConverter.cs" />
+    <Compile Include="commons\UI\WPF\Converter\AnyBoolToVisibilityConverter.cs" />
+    <Compile Include="commons\UI\WPF\Converter\BaseConverter.cs" />
+    <Compile Include="commons\UI\WPF\Converter\BoolToDoubleConverter.cs" />
+    <Compile Include="commons\UI\WPF\Converter\BoolToVisibilityConverter.cs" />
+    <Compile Include="commons\UI\WPF\Converter\ByteArrayToStringConverter.cs" />
+    <Compile Include="commons\UI\WPF\Converter\IntToVisibilityInvertedConverter.cs" />
+    <Compile Include="commons\UI\WPF\Converter\InverseBooleanConverter.cs" />
+    <Compile Include="commons\UI\WPF\Converter\InverseBoolToVisibilityConverter.cs" />
+    <Compile Include="commons\UI\WPF\Converter\MultiBaseConverter.cs" />
+    <Compile Include="commons\UI\WPF\Converter\NaturalStringConverter.cs" />
+    <Compile Include="commons\UI\WPF\Converter\NotEmptyStringToBoolConverter.cs" />
+    <Compile Include="commons\UI\WPF\Converter\ReadableDecimalConverter.cs" />
+    <Compile Include="commons\UI\WPF\Extensions\WindowExtensions.cs" />
+    <Compile Include="commons\UI\WPF\GenericFunctionsSettingsAccessor.cs" />
+    <Compile Include="commons\UI\WPF\GridViewSort.cs" />
+    <Compile Include="commons\UI\WPF\IAccessSetting.cs" />
+    <Compile Include="commons\WMI\DrivePartitionsProvider.cs" />
+    <Compile Include="commons\WMI\IReadSystemsPartitions.cs" />
+    <Compile Include="commons\WMI\Partition.cs" />
+    <Compile Include="ViewModel\ISettingsWindowViewModel.cs" />
+    <Compile Include="View\SettingsWindow.xaml.cs">
+      <DependentUpon>SettingsWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -85,6 +287,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -92,6 +295,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\HandMeAFile.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
