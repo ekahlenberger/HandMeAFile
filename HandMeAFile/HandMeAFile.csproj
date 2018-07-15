@@ -135,6 +135,7 @@
     <Compile Include="commons\ApiWrapper\System\Threading\ReaderWriterLockSlimProvider.cs" />
     <Compile Include="commons\ApiWrapper\System\Threading\ReaderWriterLockSlimWrapper.cs" />
     <Compile Include="commons\ApiWrapper\System\Windows\ApplicationWrapper.cs" />
+    <Compile Include="commons\ApiWrapper\System\Windows\ClipboardWrapper.cs" />
     <Compile Include="commons\ApiWrapper\System\Windows\Forms\ContextMenuProvider.cs" />
     <Compile Include="commons\ApiWrapper\System\Windows\Forms\ContextMenuStripWrapper.cs" />
     <Compile Include="commons\ApiWrapper\System\Windows\Forms\ContextMenuWrapper.cs" />
@@ -156,6 +157,7 @@
     <Compile Include="commons\ApiWrapper\System\Windows\Forms\NotifyIconWrapper.cs" />
     <Compile Include="commons\ApiWrapper\System\Windows\Forms\ToolTipIconWrapper.cs" />
     <Compile Include="commons\ApiWrapper\System\Windows\IApplication.cs" />
+    <Compile Include="commons\ApiWrapper\System\Windows\IClipboard.cs" />
     <Compile Include="commons\ApiWrapper\System\Windows\Interop\IProvideWindowInteropHelper.cs" />
     <Compile Include="commons\ApiWrapper\System\Windows\Interop\IWindowInteropHelper.cs" />
     <Compile Include="commons\ApiWrapper\System\Windows\Interop\WindowInteropHelperProvider.cs" />
@@ -189,6 +191,7 @@
     <Compile Include="commons\Extensions\ListExtensions.cs" />
     <Compile Include="commons\Extensions\LongExtensions.cs" />
     <Compile Include="commons\Extensions\ObjectExtensions.cs" />
+    <Compile Include="commons\Extensions\PathExtensions.cs" />
     <Compile Include="commons\Extensions\ReaderWriterLockSlimExtensions.cs" />
     <Compile Include="commons\Extensions\StringExtensions.cs" />
     <Compile Include="commons\IO\GenericProgressInfo.cs" />
@@ -265,8 +268,13 @@
     <Compile Include="commons\WMI\Partition.cs" />
     <Compile Include="Model\ClipboardFilesRepository.cs" />
     <Compile Include="Model\FilePack.cs" />
+    <Compile Include="Model\FilePackSerializer.cs" />
     <Compile Include="Model\IReadAndStoreFilePacks.cs" />
+    <Compile Include="Model\IStoreSettings.cs" />
+    <Compile Include="Model\SettingsStorage.cs" />
+    <Compile Include="ViewModel\ContextMenuUpdater.cs" />
     <Compile Include="ViewModel\ISettingsWindowViewModel.cs" />
+    <Compile Include="ViewModel\IUpdateTheContextMenu.cs" />
     <Compile Include="View\SettingsWindow.xaml.cs">
       <DependentUpon>SettingsWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

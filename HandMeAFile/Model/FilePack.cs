@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using JetBrains.Annotations;
 using org.ek.HandMeAFile.commons.Extensions;
 using org.ek.HandMeAFile.commons.Tools;
 
@@ -8,14 +10,24 @@ namespace org.ek.HandMeAFile.Model
 {
     public class FilePack : IEnumerable<Path>
     {
-        private readonly Path[] m_paths;
-        public           Path   CommonParent { get; }
+        private readonly ReadOnlyCollection<Path> m_paths;
+        public           Path   CommonAncestor { get; }
+        public           int    ClipboardCount { get; private set; }
 
-        public FilePack(IEnumerable<string> paths)
+        public FilePack([CanBeNull] IEnumerable<Path> paths)
         {
-            m_paths      = paths?.Select(p => StringExtensions.AsWindowsFilePath(p)).ToArray() ?? new Path[0];
-            CommonParent = m_paths.Select(p => p.GetParent()).Distinct().Single();
+            m_paths        = new ReadOnlyCollection<Path>(paths?.ToArray() ?? new Path[0]);
+            CommonAncestor = m_paths.FindLargestCommon();
         }
+
+        [Pure]
+        public FilePack SetCount(int newCount)
+        {
+            FilePack clone = (FilePack) MemberwiseClone();
+            clone.ClipboardCount = newCount;
+            return clone;
+        }
+        [Pure]
         /// <summary>
         ///   Gibt einen Enumerator zurück, der die Auflistung durchläuft.
         /// </summary>
@@ -26,6 +38,7 @@ namespace org.ek.HandMeAFile.Model
         {
             return (IEnumerator<Path>) m_paths.GetEnumerator();
         }
+        [Pure]
         /// <summary>
         ///   Gibt einen Enumerator zurück, der eine Auflistung durchläuft.
         /// </summary>
@@ -36,10 +49,12 @@ namespace org.ek.HandMeAFile.Model
         {
             return GetEnumerator();
         }
+        [Pure]
         protected bool Equals(FilePack other)
         {
             return m_paths.ElementsEqual(other.m_paths);
         }
+        [Pure]
         /// <summary>
         ///   Bestimmt, ob das angegebene Objekt mit dem aktuellen Objekt identisch ist.
         /// </summary>
@@ -54,14 +69,16 @@ namespace org.ek.HandMeAFile.Model
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != this.GetType()) return false;
-            return Equals((FilePack)obj);
+            return Equals((FilePack) obj);
         }
+        [Pure]
         /// <summary>Fungiert als die Standardhashfunktion.</summary>
         /// <returns>Ein Hashcode für das aktuelle Objekt.</returns>
         public override int GetHashCode()
         {
             return m_paths != null ? m_paths.GetElementsHashCode() : 0;
         }
+        [Pure]
         /// <summary>Returns a value that indicates whether the values of two <see cref="T:org.ek.HandMeAFile.Model.FilePack" /> objects are equal.</summary>
         /// <param name="left">The first value to compare.</param>
         /// <param name="right">The second value to compare.</param>
@@ -70,6 +87,7 @@ namespace org.ek.HandMeAFile.Model
         {
             return Equals(left, right);
         }
+        [Pure]
         /// <summary>Returns a value that indicates whether two <see cref="T:org.ek.HandMeAFile.Model.FilePack" /> objects have different values.</summary>
         /// <param name="left">The first value to compare.</param>
         /// <param name="right">The second value to compare.</param>

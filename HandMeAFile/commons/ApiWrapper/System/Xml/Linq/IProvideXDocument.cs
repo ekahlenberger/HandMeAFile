@@ -2,6 +2,8 @@
 {
     public interface IProvideXDocument
     {
-        IXDocument Provide(string file);
+        IXDocument Load(string file);
+        IXDocument Provide();
+        IXDocument Parse(string text);
     }
 }

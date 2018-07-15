@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
-using org.ek.HandMeAFile.commons.Extensions;
 
 namespace org.ek.HandMeAFile.commons.ApiWrapper.System.Windows.Forms
 {
@@ -11,11 +11,12 @@ namespace org.ek.HandMeAFile.commons.ApiWrapper.System.Windows.Forms
             add => OrgMenu.Popup += value;
             remove => OrgMenu.Popup -= value;
         }
+
+        public IMenuItem[] MenuItems => OrgMenu.MenuItems.OfType<MenuItem>().Select(omi => new MenuItemWrapper(omi)).OfType<IMenuItem>().ToArray();
         public ContextMenuWrapper(ContextMenu orgMenu)
         {
             OrgMenu = orgMenu;
         }
-
         public void Add(IMenuItem item)
         {
             OrgMenu.MenuItems.Add(((IProvideOrgMenuItem) item).OrgMenuItem);

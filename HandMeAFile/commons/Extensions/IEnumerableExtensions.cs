@@ -8,26 +8,19 @@ namespace org.ek.HandMeAFile.commons.Extensions
     // ReSharper disable once InconsistentNaming
     public static class IEnumerableExtensions
     {
+        [ContractAnnotation("null => halt")]
         public static IEnumerable<T> Clone<T>(this IEnumerable<T> l)
         {
-            if (l.IsNull()) return null;
+            if (l.IsNull()) throw new ArgumentNullException(nameof(l));
 
-            var cloned = new List<T>();
-            foreach (var element in l)
+            foreach (T element in l)
             {
-                var cloneable = element as ICloneable;
-                if (cloneable.IsNotNull())
-                    cloned.Add((T)cloneable.Clone());
-                else if (element is int)
-                    cloned.Add(element);
-                else if (element is double)
-                    cloned.Add(element);
-                else if (element is bool)
-                    cloned.Add(element);
-                else
-                    throw new ArgumentException("Supplied list elements are not ICloneable");
+                if (element is ICloneable cloneable)
+                    yield return (T) cloneable.Clone();
+                else if (typeof(T).IsValueType || element.GetType().IsValueType)
+                    yield return element;
+                else throw new ArgumentException("Supplied list elements are neither ICloneable nor a value type");
             }
-            return cloned;
         }
         [ContractAnnotation("null=>true")]
         public static bool IsNullOrEmpty<T>(this IEnumerable<T> l)
@@ -37,7 +30,7 @@ namespace org.ek.HandMeAFile.commons.Extensions
         [ContractAnnotation("null => halt")]
         public static bool IsEmpty<T>(this IEnumerable<T> l)
         {
-            if (l.IsNull()) throw new NullReferenceException();
+            if (l.IsNull()) throw new ArgumentNullException();
             return !l.Any();
         }
         public static bool ElementsEqual<T>(this IEnumerable<T> l, IEnumerable<T> compareList)
@@ -115,5 +108,6 @@ namespace org.ek.HandMeAFile.commons.Extensions
                 yield return existingValue;
             yield return addValue;
         }
+        public static bool None<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate = null) => predicate != null ? !source.Any(predicate) : !source.Any();
     }
 }

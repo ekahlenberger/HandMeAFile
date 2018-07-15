@@ -1,5 +1,6 @@
 ﻿using System.Windows.Forms;
 using JetBrains.Annotations;
+using org.ek.HandMeAFile.Model;
 
 namespace org.ek.HandMeAFile.commons.ApiWrapper.System.Windows.Forms
 {
@@ -11,9 +12,9 @@ namespace org.ek.HandMeAFile.commons.ApiWrapper.System.Windows.Forms
             return Provide(null);
         }
         [Pure]
-        public IMenuItem Provide(string text)
+        public IMenuItem Provide(string text, object tag = null)
         {
-            return new MenuItemWrapper(new MenuItem(text));
+            return new MenuItemWrapper(new MenuItem(text){Tag = tag});
         }
     }
 }

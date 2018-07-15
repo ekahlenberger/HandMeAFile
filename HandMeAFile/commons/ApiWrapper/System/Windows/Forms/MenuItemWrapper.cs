@@ -9,8 +9,14 @@ namespace org.ek.HandMeAFile.commons.ApiWrapper.System.Windows.Forms
         public MenuItemWrapper(MenuItem orgMenuItem)
         {
             OrgMenuItem = orgMenuItem;
+            OrgMenuItem.Click += (sender, args) => OnClick(args);
         }
 
+        public object Tag
+        {
+            get => OrgMenuItem.Tag;
+            set => OrgMenuItem.Tag = value;
+        }
         /// <summary>
         /// Generiert ein <see cref="E:System.Windows.Forms.Control.Click"/>-Ereignis für <see cref="T:System.Windows.Forms.MenuItem"/>, wobei ein Mausklick durch einen Benutzer simuliert wird.
         /// </summary>
@@ -18,7 +24,6 @@ namespace org.ek.HandMeAFile.commons.ApiWrapper.System.Windows.Forms
         {
             OrgMenuItem.PerformClick();
         }
-
         /// <summary>
         /// Ruft einen Wert ab, der angibt, ob das Menüelement sichtbar ist, oder legt diesen fest.
         /// </summary>
@@ -31,11 +36,7 @@ namespace org.ek.HandMeAFile.commons.ApiWrapper.System.Windows.Forms
             set => OrgMenuItem.Visible = value;
         }
 
-        public event EventHandler Click
-        {
-            add => OrgMenuItem.Click += value;
-            remove => OrgMenuItem.Click -= value;
-        }
+        public event EventHandler Click;
 
         public void Add(IMenuItem item)
         {
@@ -52,6 +53,11 @@ namespace org.ek.HandMeAFile.commons.ApiWrapper.System.Windows.Forms
         public void Clear()
         {
             OrgMenuItem.MenuItems.Clear();
+        }
+
+        protected virtual void OnClick(EventArgs args)
+        {
+            Click?.Invoke(this, args);
         }
     }
 }

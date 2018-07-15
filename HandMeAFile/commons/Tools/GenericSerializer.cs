@@ -16,7 +16,7 @@ namespace org.ek.HandMeAFile.commons.Tools
             return Task.Run(() => Serialize(objs), token);
         }
         /// <inheritdoc />
-        public string Serialize(T[] objs)
+        public virtual string Serialize(T[] objs)
         {
             if (!objs.Any() || objs[0] == null) return null;
             using (MemoryStream memStream = new MemoryStream())
@@ -32,7 +32,7 @@ namespace org.ek.HandMeAFile.commons.Tools
             return Task.Run(() => Deserialize(serialized), token);
         }
         /// <inheritdoc />
-        public T[] Deserialize(string serialized)
+        public virtual T[] Deserialize(string serialized)
         {
             if (string.IsNullOrWhiteSpace(serialized)) return new T[0];
             using (MemoryStream memStream = new MemoryStream(Convert.FromBase64String(serialized)))

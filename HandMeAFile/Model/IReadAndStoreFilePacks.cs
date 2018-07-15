@@ -1,11 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace org.ek.HandMeAFile.Model
 {
     public interface IReadAndStoreFilePacks : IDisposable
     {
         event EventHandler ClipboardFilePacksUpdated;
-        IEnumerable<FilePack> GetAll();
+        FilePack[] GetTop(int count);
+        FilePack[] GetAll();
+        void Init(FilePack[] initialPacks = null);
     }
 }
