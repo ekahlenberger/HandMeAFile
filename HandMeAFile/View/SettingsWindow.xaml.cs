@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using org.ek.HandMeAFile.ViewModel;
 
 namespace org.ek.HandMeAFile.View
 {
@@ -7,8 +8,10 @@ namespace org.ek.HandMeAFile.View
     /// </summary>
     public partial class SettingsWindow : Window
     {
-        public SettingsWindow()
+        public ISettingsWindowViewModel ViewModel { get; set; }
+        public SettingsWindow(ISettingsWindowViewModel viewModel)
         {
+            ViewModel = viewModel;
             InitializeComponent();
         }
     }

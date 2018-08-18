@@ -16,6 +16,7 @@ namespace org.ek.HandMeAFile.ViewModel
         private readonly IProvideMenuItem       m_menuItemProvider;
         private readonly IClipboard             m_clipboard;
         private          IMenuItem[]            m_defaultContextItems;
+        private FilePack m_recentFilePack = null;
 
         public ContextMenuUpdater([NotNull] IReadAndStoreFilePacks filePacksRepository,
                                   [NotNull] IContextMenu contextMenu,
@@ -39,24 +40,38 @@ namespace org.ek.HandMeAFile.ViewModel
         private void UpdateContextMenu()
         {
             m_contextMenu.Clear();
-            m_filePacksRepository.GetTop(10).Run(pack =>
-                                                 {
-                                                     IMenuItem menuItem = m_menuItemProvider.Provide(pack.CommonAncestor, pack);
-                                                     menuItem.Click += FilePackClick;
-                                                     m_contextMenu.Add(menuItem);
-                                                 });
+            m_filePacksRepository.GetTop(10).Run(AppendMenuEntryForFilePack);
+            if (m_recentFilePack != null)
+            {
+                m_contextMenu.Add(m_menuItemProvider.Provide("-"));
+                AppendMenuEntryForFilePack(m_recentFilePack);
+            }
+                
             m_defaultContextItems.Run(m_contextMenu.Add);
 
         }
+
+        private void AppendMenuEntryForFilePack(FilePack pack)
+        {
+            IMenuItem menuItem = m_menuItemProvider.Provide(pack.CommonAncestor, pack);
+            menuItem.Click += FilePackClick;
+            m_contextMenu.Add(menuItem);
+        }
+
         private void FilePackClick(object sender, EventArgs e)
         {
             IMenuItem menuItem = (IMenuItem) sender;
             FilePack  pack     = (FilePack) menuItem.Tag;
             m_clipboard.SetFileDropList(pack);
         }
-        private void FilePacksRepositoryOnClipboardFilePacksUpdated(object sender, EventArgs e)
+        private void FilePacksRepositoryOnClipboardFilePacksUpdated(object sender, FilePacksChangeArgs args)
         {
+            if (args.OpType == FilePacksChangeType.Added)
+                m_recentFilePack = args.ChangedPack;
             UpdateContextMenu();
+            
         }
+
+        
     }
 }

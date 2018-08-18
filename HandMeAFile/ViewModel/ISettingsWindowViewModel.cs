@@ -1,22 +1,12 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using JetBrains.Annotations;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
+using org.ek.HandMeAFile.commons.UI.MVVM;
 
 namespace org.ek.HandMeAFile.ViewModel
 {
     public interface ISettingsWindowViewModel : INotifyPropertyChanged
     {
-        
-    }
-
-    public class SettingsWindowViewModel : ISettingsWindowViewModel
-    {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        ObservableCollection<FilePackViewModel> FilePacks { get; set; }
+        IExecCommand LoadFilePacks { get; }
     }
 }

@@ -22,7 +22,8 @@ namespace org.ek.HandMeAFile.commons.Tools.Application
                                [NotNull] IApplication application,
                                [NotNull] IProvideNotifyIcon notifyIconProvider,
                                [NotNull] IProvideIcon trayIconProvider,
-                               [CanBeNull] IRunTheBackgroundTrayApp background = null)
+                               [CanBeNull] IRunTheBackgroundTrayApp background = null,
+                               [CanBeNull] EventHandler doubleClickAction = null)
         {
             m_contextMenu = contextMenu ?? throw new ArgumentNullException(nameof(contextMenu));
             m_application = application ?? throw new ArgumentNullException(nameof(application));
@@ -34,6 +35,8 @@ namespace org.ek.HandMeAFile.commons.Tools.Application
             m_application.Exit += ApplicationOnExit;
             m_notifyIcon.Visible = true;
             m_notifyIcon.ContextMenu = m_contextMenu;
+            if (doubleClickAction != null)
+                m_notifyIcon.DoubleClick += doubleClickAction;
         }
 
         private void ApplicationOnExit(object sender, ExitEventArgs exitEventArgs)

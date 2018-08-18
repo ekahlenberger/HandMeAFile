@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 
@@ -21,8 +22,7 @@ namespace org.ek.HandMeAFile.commons.Tools
         [Pure]
         string Serialize(T obj);
         [Pure]
-        [CanBeNull]
-        T[] Deserialize(string serialized);
+        IEnumerable<T> Deserialize(string serialized);
         [Pure]
         [CanBeNull]
         T DeserializeSingle(string serialized);

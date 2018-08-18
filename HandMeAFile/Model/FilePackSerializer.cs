@@ -10,6 +10,7 @@ using org.ek.HandMeAFile.commons.Extensions;
 using org.ek.HandMeAFile.commons.Tools;
 using Path = org.ek.HandMeAFile.commons.Tools.Path;
 
+
 namespace org.ek.HandMeAFile.Model
 {
     public class FilePackSerializer : GenericSerializer<FilePack>
@@ -21,7 +22,6 @@ namespace org.ek.HandMeAFile.Model
             Debug.Assert(xdocProvider != null, nameof(xdocProvider) + " != null");
             m_xdocProvider = xdocProvider;
         }
-        /// <inheritdoc />
         public override string Serialize(FilePack[] pack)
         {
             if (pack.IsNullOrEmpty()) return null;
@@ -42,21 +42,18 @@ namespace org.ek.HandMeAFile.Model
             return doc.ToString(SaveOptions.DisableFormatting);
         }
 
-        /// <inheritdoc />
-        public override FilePack[] Deserialize(string serialized)
+        public override IEnumerable<FilePack> Deserialize(string serialized)
         {
-            if (serialized.IsNullOrWhitespace()) return new FilePack[0];
+            if (serialized.IsNullOrWhitespace()) yield break;
 
             IXDocument doc = m_xdocProvider.Parse(serialized);
-            List<FilePack> packs = new List<FilePack>();
+            
             foreach (XElement filePackNode in doc.Root.XPathSelectElements("//FilePacks/FilePack"))
             {
                 int count = filePackNode.Element("Count")?.Value.ConvertToInt() ?? throw new InvalidDataException($"could not parse filePacks / illegal Node: {filePackNode}");
                 Path[] files = filePackNode.XPathSelectElements("Files/File").Select(node => node.Value.AsWindowsFilePath()).ToArray();
-                packs.Add(new FilePack(files).SetCount(count));
+                yield return new FilePack(files).SetCount(count);
             }
-
-            return packs.ToArray();
         }
     }
 }

@@ -9,7 +9,10 @@ namespace org.ek.HandMeAFile.commons.UI.MVVM
         private readonly Action<TResult> m_frontendResultProcessor;
         private readonly IProgress<TProgress> m_progress;
         
-        public AsyncActionCommand(Func<TCall, IProgress<TProgress>,TResult> backgroundAction, Action<TResult> frontendResultProcessor = null, IProgress<TProgress> progress = null)
+        public AsyncActionCommand(Func<TCall, IProgress<TProgress>, TResult> backgroundAction,
+                                  Action<TResult> frontendResultProcessor = null,
+                                  IProgress<TProgress> progress = null,
+                                  Action<Exception> uiHandleException = null) : base(uiHandleException)
         {
             m_backgroundAction = backgroundAction;
             m_frontendResultProcessor = frontendResultProcessor;

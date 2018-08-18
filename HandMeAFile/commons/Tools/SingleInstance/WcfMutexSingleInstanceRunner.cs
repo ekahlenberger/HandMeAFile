@@ -32,11 +32,14 @@ namespace org.ek.HandMeAFile.commons.Tools.SingleInstance
                 return true;
             }
 
-            ChannelFactory<IRunOnceService> pipeFactory = new ChannelFactory<IRunOnceService>(new NetNamedPipeBinding(),
-                                                                                              new EndpointAddress($"net.pipe://localhost/{m_uniqueIdentifier}/singleInstService"));
-            IRunOnceService runOnceService = pipeFactory.CreateChannel();
-            runOnceService.SecondInstanceRun(args.Args);
-            return false;
+            using (ChannelFactory<IRunOnceService> pipeFactory = new ChannelFactory<IRunOnceService>(new NetNamedPipeBinding(),
+                                                                                                     new EndpointAddress($"net.pipe://localhost/{m_uniqueIdentifier}/singleInstService"))
+            )
+            {
+                IRunOnceService runOnceService = pipeFactory.CreateChannel();
+                runOnceService.SecondInstanceRun(args.Args);
+                return false;
+            }
         }
         protected virtual void OnSecondInstanceStarted(SecondInstanceEventArgs e)
         {

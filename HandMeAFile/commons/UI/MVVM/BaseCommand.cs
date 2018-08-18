@@ -17,6 +17,11 @@ namespace org.ek.HandMeAFile.commons.UI.MVVM
             }
         }
 
+        public void Execute()
+        {
+            Execute(null);
+        }
+
         /// <summary>Definiert die Methode, die bestimmt, ob der Befehl im aktuellen Zustand ausgeführt werden kann.</summary>
         /// <returns>true, wenn der Befehl ausgeführt werden kann, andernfalls false.</returns>
         /// <param name="parameter">Vom Befehl verwendete Daten. Wenn der Befehl keine Datenübergabe erfordert, kann das Objekt auf null festgelegt werden.</param>

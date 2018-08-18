@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -29,10 +30,10 @@ namespace org.ek.HandMeAFile.commons.Tools
         /// <inheritdoc />
         public Task<T[]> DeserializeAsync(string serialized, CancellationToken token)
         {
-            return Task.Run(() => Deserialize(serialized), token);
+            return Task.Run(() => Deserialize(serialized).ToArray(), token);
         }
         /// <inheritdoc />
-        public virtual T[] Deserialize(string serialized)
+        public virtual IEnumerable<T> Deserialize(string serialized)
         {
             if (string.IsNullOrWhiteSpace(serialized)) return new T[0];
             using (MemoryStream memStream = new MemoryStream(Convert.FromBase64String(serialized)))
@@ -44,7 +45,7 @@ namespace org.ek.HandMeAFile.commons.Tools
         /// <inheritdoc />
         public Task<string> SerializeAsync(T obj, CancellationToken token)
         {
-            return SerializeAsync(new T[] {obj}, token);
+            return SerializeAsync(new[] {obj}, token);
         }
         /// <inheritdoc />
         public Task<T> DeserializeSingleAsync(string serialized, CancellationToken token)
@@ -54,14 +55,14 @@ namespace org.ek.HandMeAFile.commons.Tools
         /// <inheritdoc />
         public string Serialize(T obj)
         {
-            return Serialize(new T[] {obj});
+            return Serialize(new[] {obj});
         }
         /// <inheritdoc />
         public T DeserializeSingle(string serialized)
         {
-            T[] deserialized = Deserialize(serialized);
+            T[] deserialized = Deserialize(serialized).ToArray();
             if (!deserialized.IsNullOrEmpty()) return deserialized[0];
-            return default(T);
+            return default;
         }
     }
 }

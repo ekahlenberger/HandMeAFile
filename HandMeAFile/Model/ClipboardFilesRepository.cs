@@ -3,7 +3,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Windows;
 using JetBrains.Annotations;
 using org.ek.HandMeAFile.commons.ApiWrapper.System.Windows;
 using org.ek.HandMeAFile.commons.Extensions;
@@ -15,16 +14,16 @@ namespace org.ek.HandMeAFile.Model
     {
         private readonly INotifyOfClipboardUpdates           m_clipUpdater;
         private readonly IClipboard                          m_clipboard;
-        private readonly ConcurrentDictionary<FilePack,int> m_packs = new ConcurrentDictionary<FilePack, int>();
-        public event EventHandler                            ClipboardFilePacksUpdated;
+        private readonly ConcurrentDictionary<FilePack, int> m_packs = new ConcurrentDictionary<FilePack, int>();
+        public event EventHandler<FilePacksChangeArgs>       ClipboardFilePacksUpdated;
 
         public ClipboardFilesRepository([NotNull] INotifyOfClipboardUpdates clipUpdater, [NotNull] IClipboard clipboard)
         {
-            Debug.Assert(clipUpdater  != null, nameof(clipUpdater)  + " != null");
-            Debug.Assert(clipboard    != null, nameof(clipboard)    + " != null");
+            Debug.Assert(clipUpdater != null, nameof(clipUpdater) + " != null");
+            Debug.Assert(clipboard   != null, nameof(clipboard)   + " != null");
 
-            m_clipUpdater                 =  clipUpdater;
-            m_clipboard                   =  clipboard;
+            m_clipUpdater = clipUpdater;
+            m_clipboard   = clipboard;
         }
 
         public void Init(FilePack[] initialPacks = null)
@@ -34,9 +33,15 @@ namespace org.ek.HandMeAFile.Model
                 foreach (FilePack initialPack in initialPacks)
                     m_packs.AddOrUpdate(initialPack, initialPack.ClipboardCount);
             }
+
             m_clipUpdater.ClipboardUpdate += ClipboardChanged;
         }
 
+        public void Remove(FilePack filePack)
+        {
+            m_packs.TryRemove(filePack, out _);
+            ClipboardFilePacksUpdated?.Invoke(this, new FilePacksChangeArgs(filePack,FilePacksChangeType.Deleted));
+        }
 
         private void ClipboardChanged(object sender, EventArgs e)
         {
@@ -44,16 +49,16 @@ namespace org.ek.HandMeAFile.Model
 
             FilePack pack = new FilePack(m_clipboard.GetFileDropListPaths());
             m_packs.AddOrUpdate(pack, 1, (existingPack, existingCount) => ++existingCount);
-            ClipboardFilePacksUpdated?.Invoke(this, EventArgs.Empty);
+            ClipboardFilePacksUpdated?.Invoke(this, new FilePacksChangeArgs(pack,FilePacksChangeType.Added));
         }
 
-        public FilePack[] GetTop(int count)
+        public IEnumerable<FilePack> GetTop(int count)
         {
             if (count <= 0) throw new ArgumentOutOfRangeException(nameof(count));
-            return m_packs.OrderBy(kvp => kvp.Value).Where(kvp => kvp.Key.CommonAncestor != null).Take(count).Select(SetCount).ToArray();
+            return m_packs.OrderBy(kvp => kvp.Value).Where(kvp => kvp.Key.CommonAncestor != null).Take(count).Select(SetCount);
         }
 
-        public FilePack[] GetAll() => m_packs.Select(SetCount).ToArray();
+        public IEnumerable<FilePack> GetAll() => m_packs.Select(SetCount);
 
         private FilePack SetCount(KeyValuePair<FilePack, int> kvp) => kvp.Key.SetCount(kvp.Value);
 

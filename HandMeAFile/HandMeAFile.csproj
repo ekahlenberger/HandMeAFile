@@ -45,6 +45,7 @@
     <Reference Include="System.Management" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -63,6 +64,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="View\PathButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\SettingsWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -243,6 +248,11 @@
     <Compile Include="commons\UI\MVVM\AsyncActionCommand.cs" />
     <Compile Include="commons\UI\MVVM\AsyncBaseCommand.cs" />
     <Compile Include="commons\UI\MVVM\BaseCommand.cs" />
+    <Compile Include="commons\UI\MVVM\CommandCreation\CommandCreator.cs" />
+    <Compile Include="commons\UI\MVVM\CommandCreation\IProvideDefaultUiInteraction.cs" />
+    <Compile Include="commons\UI\MVVM\CommandCreation\ProgressExtensions.cs" />
+    <Compile Include="commons\UI\MVVM\CommandCreation\ProgressNotification.cs" />
+    <Compile Include="commons\UI\MVVM\CommandCreation\SimpleDefaultUiInteractionProvider.cs" />
     <Compile Include="commons\UI\MVVM\IExecCommand.cs" />
     <Compile Include="commons\UI\MVVM\InitialAsyncActionCommand.cs" />
     <Compile Include="commons\UI\WPF\BaseWindow.cs" />
@@ -258,11 +268,17 @@
     <Compile Include="commons\UI\WPF\Converter\MultiBaseConverter.cs" />
     <Compile Include="commons\UI\WPF\Converter\NaturalStringConverter.cs" />
     <Compile Include="commons\UI\WPF\Converter\NotEmptyStringToBoolConverter.cs" />
+    <Compile Include="commons\UI\WPF\Converter\ObjectNotNullToBoolConverter.cs" />
     <Compile Include="commons\UI\WPF\Converter\ReadableDecimalConverter.cs" />
     <Compile Include="commons\UI\WPF\Extensions\WindowExtensions.cs" />
     <Compile Include="commons\UI\WPF\GenericFunctionsSettingsAccessor.cs" />
     <Compile Include="commons\UI\WPF\GridViewSort.cs" />
     <Compile Include="commons\UI\WPF\IAccessSetting.cs" />
+    <Compile Include="Model\FilePacksChangeArgs.cs" />
+    <Compile Include="Model\FilePacksChangeType.cs" />
+    <Compile Include="View\PathButton.xaml.cs">
+      <DependentUpon>PathButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="commons\WMI\DrivePartitionsProvider.cs" />
     <Compile Include="commons\WMI\IReadSystemsPartitions.cs" />
     <Compile Include="commons\WMI\Partition.cs" />
@@ -272,9 +288,13 @@
     <Compile Include="Model\IReadAndStoreFilePacks.cs" />
     <Compile Include="Model\IStoreSettings.cs" />
     <Compile Include="Model\SettingsStorage.cs" />
+    <Compile Include="commons\UI\MVVM\CommandCreation\ICreateCommands.cs" />
     <Compile Include="ViewModel\ContextMenuUpdater.cs" />
+    <Compile Include="ViewModel\FilePackViewModel.cs" />
     <Compile Include="ViewModel\ISettingsWindowViewModel.cs" />
     <Compile Include="ViewModel\IUpdateTheContextMenu.cs" />
+    <Compile Include="ViewModel\ProgressInfo.cs" />
+    <Compile Include="ViewModel\SettingsWindowViewModel.cs" />
     <Compile Include="View\SettingsWindow.xaml.cs">
       <DependentUpon>SettingsWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -309,6 +329,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\HandMeAFile.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ViewModel\Command\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -28,7 +28,7 @@ namespace org.ek.HandMeAFile.Model
 
         public FilePack[] FilePacks
         {
-            get => m_packsSerializer.Deserialize(Properties.Settings.Default.FilePacks);
+            get => m_packsSerializer.Deserialize(Properties.Settings.Default.FilePacks).ToArray();
             set
             {
                 Properties.Settings.Default.FilePacks = m_packsSerializer.Serialize(value);
