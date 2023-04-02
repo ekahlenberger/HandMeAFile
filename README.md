@@ -1,4 +1,5 @@
-# HandMeAFile
+# Archived - no more development
+## HandMeAFile
 
 just a small proof of concept
 
